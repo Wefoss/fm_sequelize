@@ -26,30 +26,30 @@ module.exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-module.exports.updateUser = async (req, res, next) => {
+module.exports.updateUser = async (req, res, next) =>{
   try {
-    const {body, params:{id}} = req
-    const [rows, [userUpdate]] = await User.update(body, {
+    const {body, params:{id}} = req;
+    const [rows, [updatedUser] ] = await User.update(body, {
       where: {id},
-      returning: true
-    })
-    userUpdate.password = undefined
-    res.status(200).send(userUpdate);
+      returning:true
+    });
+    updatedUser.password = undefined;
+    res.status(200).send({data:updatedUser});
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
-module.exports.updateUserInstance = async (req, res, next) => {
+module.exports.updateUserInstance = async (req, res, next) =>{
   try {
-    const {body, params:{id}} = req
-    const userInstance = await User.findByPk(id)
-    const userUpdate = await userInstance.update(body, {
-           returning: true
-    })
-    userUpdate.password = undefined
-    res.status(200).send(userUpdate);
+    const {body, userInstance} = req;
+    //const userInstance = await User.findByPk(id);
+    const updatedUser = await userInstance.update(body,{
+      returning:true
+    });
+    updatedUser.password = undefined;
+    res.status(200).send({data:updatedUser});
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
