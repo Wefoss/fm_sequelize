@@ -12,13 +12,15 @@ module.exports.createUser = async (req, res, next) => {
 
 module.exports.getAllUsers = async (req, res, next) => {
   try {
+    const {pagination={}} = req
     const users = await User.findAll({
       // where: {
       //  firstName: "Tohn"
       // },
       attributes: {
         exclude: ['password']
-      }
+      },
+      ...pagination
     });
     res.status(200).send(users);
   } catch (error) {
