@@ -1,10 +1,11 @@
 const express = require('express')
 const router = require('./routes')
 
+
 const app = express()
 app.use(express.json())
 app.use('/api', router)
-
+app.use(express.static('public'))
 
 app.use((err,req,res,next) => {
    const statusError = err.status || 500
