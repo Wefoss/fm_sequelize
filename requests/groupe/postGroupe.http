@@ -4,6 +4,6 @@ Content-Type: application/json
 
 {
   "name":"teams",
-  "userId":141,
- 
-}
+  "userId":1,
+  "trash": "fdfsdg"
+    }

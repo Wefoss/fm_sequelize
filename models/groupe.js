@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Groupe.init({
     name: {type:DataTypes.STRING,allowNull: false,},
-    imagePath: {type:DataTypes.STRING, allowNull: false,},
+    imagePath: {type:DataTypes.STRING},
     description: {type:DataTypes.STRING}
   }, {
     sequelize,
