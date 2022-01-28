@@ -1,6 +1,7 @@
 const { Groupe, User } = require("../models");
 const createError = require("http-error");
 const _ = require("lodash");
+const groupe = require("../models/groupe");
 
 module.exports.postOneGroupe = async (req, res, next) => {
   try {
@@ -64,3 +65,40 @@ module.exports.createImageForGroupe = async (req, res, next) => {
     next(error)
   }
 };
+
+module.exports.addUsetToGroupe = async (req, res, next) => {
+  try {
+    
+    const {body:{userId}, params:{groupeId}} = req
+
+   const groupe = await Groupe.findByPk(groupeId) 
+   if(!groupeId) {
+     return next(createError(404, "Groupe Not Found"))
+   }
+   const user= await User.findByPk(userId) 
+   if(!userId) {
+    return next(createError(404, "User Not Found"))
+   }
+   
+   await groupe.addUser(user)
+  // const groupeWithUsers = await groupe.getUsers({
+  //   include:[Groupe]
+  // })
+
+  const groupeWithUsers = await Groupe.findByPk(groupeId, {
+    include:[{
+     model: User, 
+     attributes: {
+       exclude: ['password']
+     },
+     through: {
+      attributes: []
+     }
+    }]
+  })
+
+       res.status(201).send({data:    groupeWithUsers})
+  } catch (error) {
+     next(error)
+  }
+}

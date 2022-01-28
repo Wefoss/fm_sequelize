@@ -19,8 +19,11 @@ const storage = multer.diskStorage({
 
 const groupeUser = Router()
 
-groupeUser.post('/', GroupeController.postOneGroupe)
+
 groupeUser.get('/:userId', GroupeController.getGrouresByUser)
+
+groupeUser.post('/', GroupeController.postOneGroupe)
 groupeUser.post('/:groupeId/image', upload.single('image'), GroupeController.createImageForGroupe)
+groupeUser.post('/:groupeId', GroupeController.addUsetToGroupe)
 
 module.exports = groupeUser
