@@ -1,4 +1,4 @@
-const {Task} = require('../models');
+const {Task, User} = require('../models');
 
 
 module.exports.createTask = async(req, res, next)=>{
@@ -18,6 +18,17 @@ module.exports.getUserTasks = async(req, res, next)=>{
     const {userInstance} = req;
     const tasks = await userInstance.getTasks();
     res.status(200).send({data: tasks});
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports.deleteTask = async (req, res, next) =>{
+  try {
+    const {params:{taskId}} = req;
+    const task = await Task.findByPk(taskId)
+         await task.destroy()
+          res.status(200).send(task);
   } catch (error) {
     next(error)
   }

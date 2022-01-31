@@ -1,5 +1,5 @@
 const createError = require('http-errors')
-const { User } = require("../models");
+const { User, Task } = require("../models");
 
 module.exports.createUser = async (req, res, next) => {
   try {
@@ -56,6 +56,7 @@ module.exports.updateUser = async (req, res, next) =>{
       where: {id: userId},
       returning:true
     });
+   
     updatedUser.password = undefined;
     res.status(200).send({data:updatedUser});
   } catch (error) {
@@ -76,3 +77,28 @@ module.exports.updateUserInstance = async (req, res, next) =>{
     next(error)
   }
 }
+
+module.exports.updateUserInstance = async (req, res, next) =>{
+  try {
+    const {body, userInstance} = req;
+    //const userInstance = await User.findByPk(id);
+    const updatedUser = await userInstance.update(body,{
+      returning:true
+    });
+    updatedUser.password = undefined;
+    res.status(200).send({data:updatedUser});
+  } catch (error) {
+    next(error)
+  }
+}
+module.exports.deleteUser = async (req, res, next) =>{
+  try {
+    const {params:{userId}} = req;
+     const user = await User.findByPk(userId)
+    await  user.destroy()
+    res.status(200).send(user);
+  } catch (error) {
+    next(error)
+  }
+}
+
