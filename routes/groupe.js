@@ -21,10 +21,12 @@ const groupeUser = Router()
 
 
 groupeUser.get('/:userId', GroupeController.getGroupesByUser)
+groupeUser.get('/', GroupeController.getAllGroupe)
 
 groupeUser.post('/', GroupeController.postOneGroupe)
 groupeUser.post('/:groupeId/image', upload.single('image'), GroupeController.createImageForGroupe)
 groupeUser.post('/:groupeId', GroupeController.addUsetToGroupe)
 groupeUser.delete('/:groupeId', GroupeController.removeGroupe)
+groupeUser.delete('/:groupeId/:userId', GroupeController.deleteUserFromGroupe)
 
 module.exports = groupeUser

@@ -33,3 +33,16 @@ module.exports.deleteTask = async (req, res, next) =>{
     next(error)
   }
 }
+
+
+module.exports.getAllTasks = async (req, res, next) =>{
+  try {
+    const {pagination} = req
+       const tasks = await Task.findAll({
+        ...pagination
+       })
+        res.status(200).send(tasks);
+  } catch (error) {
+    next(error)
+  }
+}

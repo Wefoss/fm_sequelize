@@ -8,7 +8,7 @@ module.exports.createUser = async (req, res, next) => {
     if(!createUser) {
       throw new Error('400. Bad Request')
     }
-    res.status(201).send(createUser);
+    res.status(201).send({body: [createUser]});
   } catch (error) {
     next(error);
   }

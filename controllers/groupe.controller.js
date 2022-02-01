@@ -16,8 +16,19 @@ module.exports.postOneGroupe = async (req, res, next) => {
     const groupe = await Groupe.create({
       ...value,
     });
-
+    if(!groupe) {
+      return next(createError(400, 'Bad Request'))
+    }
+    
     await groupe.addUser(user);
+     
+    const ifUserInGroupe = await Groupe.findByPk(groupe.id, {
+       include: [{model: User, where: {id: body.userId}}]
+    })
+      if(!ifUserInGroupe) {
+        await ifUserInGroupe.destroy()
+       return next(createError(404, "User Not Found"))
+      }
 
     res.status(201).send({ data: { groupe } });
   } catch (error) {
@@ -110,12 +121,35 @@ module.exports.addUsetToGroupe = async (req, res, next) => {
 
 module.exports.removeGroupe = async (req, res, next) => {
   try {
-    const {params:{groupeId}} = req
-        const groupe = await Groupe.findByPk(groupeId)
-        await groupe.destroy()
-        res.status(401).send(groupe)
+    const {
+      params: { groupeId },
+    } = req;
+    const groupe = await Groupe.findByPk(groupeId);
+    await groupe.destroy();
+    res.status(401).send(groupe);
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
+module.exports.deleteUserFromGroupe = async (req, res, next) => {
+  try {
+    const {
+      params: { groupeId, userId },
+    } = req;
+    const groupe = await Groupe.findByPk(groupeId);
+    await groupe.removeUser(userId);
+    res.status(401).send(groupe);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getAllGroupe = async (req, res, next) => {
+  try {
+    const groupes = await Groupe.findAll();
+    res.status(401).send(groupes);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,6 +1,6 @@
 const MAX_LIMIT = 10
 
-module.exports = async(req,res, next) => {
+module.exports = async(req, res, next) => {
   try {
     const {query:{limit, offset}} = req
      
