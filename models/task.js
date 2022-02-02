@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Task.init({
     body: {type:DataTypes.TEXT, allowNull: false, validate: {notNull: true,
-      notEmpty: true, isAlphanumeric: true}},
+      notEmpty: true}},
     isDone: {type:DataTypes.BOOLEAN, defaultValue: false,field: 'is_done', allowNull: false, validate: {notNull: true,
       notEmpty: true,}},
     deadLine: {type: DataTypes.DATE, validate: {isDate: true}, field: 'dead_line'}
