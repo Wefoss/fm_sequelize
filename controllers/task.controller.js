@@ -73,3 +73,18 @@ module.exports.updateTask = async (req, res, next) =>{
     next(error)
   }
 }
+
+module.exports.deleteUserTask = async (req, res, next) =>{
+  try {
+    const {params:{taskId, userId}} = req
+    const user = await User.findByPk(userId)
+    const task = await Task.findByPk(taskId)
+    await user.destroy(taskId)
+       if(!user && !task) {
+         return next(createError(400, 'Bad Request')) 
+       }
+        res.status(200).send(task);
+  } catch (error) {
+    next(error)
+  }
+}

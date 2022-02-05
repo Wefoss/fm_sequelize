@@ -13,7 +13,7 @@ taskRouter.get('/', paginate, TaskController.getAllTasks)
 taskRouter.patch('/:taskId', TaskController.updateTask)
 
 taskRouter.delete('/:taskId', TaskController.deleteTask)
-
+taskRouter.delete('/:taskId/:userId', TaskController.deleteUserTask)
 
 
 module.exports = taskRouter
